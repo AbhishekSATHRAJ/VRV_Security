@@ -50,7 +50,8 @@ const authenticateToken = (req, res, next) => {
 // Middleware for role-based access control (RBAC)
 function authorize(roles) {
   return (req, res, next) => {
-    const token = req.headers["authorization"];
+    const token = req.headers["authorization"]?.split(" ")[1];     
+    console.log(token)
     if (!token) {
       return res.status(401).send("No token provided");
     }
@@ -106,7 +107,7 @@ async function login(req, res) {
     if (!isPasswordValid) return res.status(400).send("Invalid password");
 
     const payload = { username: user.username, role: user.role };
-    const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: "1h" });
+    const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: "24h" });
 
     return res.json({ token });
   } catch (error) {
@@ -118,13 +119,16 @@ async function login(req, res) {
 // Create Post
 app.post("/posts",authenticateToken ,authorize(["user", "moderator", "admin"]), async (req, res) => {
   const { title, content } = req.body;
+ 
 
-  try {
+  try {console.log(authorize)
     if (!title || title.length < 5) return res.status(400).send("Title must be at least 5 characters long");
     if (!content || content.length < 20) return res.status(400).send("Content must be at least 20 characters long");
 
+    console.log(title,content,req.user.username)
     await Post.create({ username: req.user.username, title, content, isValidated: false });
-    return res.status(201).send("Post created successfully, waiting for validation");
+    // console.log(query)
+    return res.status(201).send({message:"Post created successfully, waiting for validation"});
   } catch (error) {
     return res.status(500).send("Error creating post");
   }

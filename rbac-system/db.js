@@ -50,22 +50,45 @@ const User = sequelize.define('User', {
 });
 
 // Define the Post model
-const Post = sequelize.define('Post', {
-  title: { 
-    type: DataTypes.STRING,
-    allowNull: false, 
+// const Post = sequelize.define('Post', {
+//   title: { 
+//     type: DataTypes.STRING,
+//     allowNull: false, 
+//   },
+//   content: { 
+//     type: DataTypes.TEXT,
+//     allowNull: false, 
+//   },
+//   isValidated: { 
+//     type: DataTypes.BOOLEAN, 
+//     defaultValue: false,
+//   },
+// }, {
+//   timestamps: false // Add timestamps option here
+// });
+
+const Post = sequelize.define("Post", {
+ 
+  username: {
+    type: Sequelize.STRING,
+    allowNull: false,  // Ensure this field is not nullable
   },
-  content: { 
-    type: DataTypes.TEXT,
-    allowNull: false, 
+  title: {
+    type: Sequelize.STRING,
+    allowNull: false,
   },
-  isValidated: { 
-    type: DataTypes.BOOLEAN, 
+  content: {
+    type: Sequelize.TEXT,
+    allowNull: false,
+  },
+  isValidated: {
+    type: Sequelize.BOOLEAN,
     defaultValue: false,
   },
-}, {
-  timestamps: false // Add timestamps option here
-});
+  
+      timestamps: false // Add timestamps option here
+    });
+  
 
 // Establish relationships (better to use `id` as foreign key)
 User.hasMany(Post, { foreignKey: 'userId' });
