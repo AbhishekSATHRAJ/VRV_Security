@@ -1,8 +1,11 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const cors = require('cors');
 const dotenv = require("dotenv");
 const { User, Post } = require('./db'); // Assuming these are Sequelize models
+
+
 
 // Initialize environment variables
 dotenv.config();
@@ -10,8 +13,13 @@ dotenv.config();
 // Initialize express app
 const app = express();
 
+
+app.use(cors({origin: "*"}));
+
 // Middleware to parse JSON request bodies
 app.use(express.json());
+app.use(express.static('public'));
+
 
 // Define roles and their permissions
 const roles = {
