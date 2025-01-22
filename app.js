@@ -145,11 +145,14 @@ app.post("/posts",authenticateToken ,authorize(["user", "moderator", "admin"]), 
 app.get("/posts",authenticateToken, authorize(["user", "moderator", "admin"]), async (req, res) => {
   try {
     const posts = await Post.findAll();
+    console.log("Posts fetched successfully:", posts);
     res.json(posts);
   } catch (error) {
-    res.status(500).send("Error fetching posts");
+    console.error("Error fetching posts:", error);
+    res.status(500).json({ error: "Error fetching posts", details: error.message });
   }
 });
+
 
 // Get Unvalidated Posts (Admin only)
 app.get("/posts/unvalidated",authenticateToken, authorize(["admin"]), async (req, res) => {
