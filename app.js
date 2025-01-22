@@ -3,20 +3,19 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cors = require('cors');
 const dotenv = require("dotenv");
-const { User, Post } = require('./db'); // Assuming these are Sequelize models
+const { User, Post } = require('./db'); 
 
 
 
-// Initialize environment variables
+
 dotenv.config();
 
-// Initialize express app
 const app = express();
 
 
 app.use(cors({origin: "*"}));
 
-// Middleware to parse JSON request bodies
+
 app.use(express.json());
 app.use(express.static('public'));
 
@@ -30,10 +29,10 @@ const roles = {
 
 // Middleware to authenticate requests
 const authenticateToken = (req, res, next) => {
-  const token = req.headers["authorization"]?.split(" ")[1]; // Extract token from "Authorization" header
+  const token = req.headers["authorization"]?.split(" ")[1]; 
 
   if (!token) {
-    // No token provided, return a 401 Unauthorized status with a WWW-Authenticate header
+    
     return res.status(401).set('WWW-Authenticate', 'Bearer realm="example", error="missing_token", error_description="No token provided"').json({
       error: 'Unauthorized',
       message: 'Authentication required'
@@ -42,7 +41,7 @@ const authenticateToken = (req, res, next) => {
 
   jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
     if (err) {
-      // Invalid token, return a 401 Unauthorized status with a WWW-Authenticate header
+      
       return res.status(401).set('WWW-Authenticate', 'Bearer realm="example", error="invalid_token", error_description="Invalid or expired token"').json({
         error: 'Unauthorized',
         message: 'Token is invalid or expired'

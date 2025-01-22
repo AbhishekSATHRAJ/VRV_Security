@@ -6,14 +6,14 @@ dotenv.config();
 
 // Initialize Sequelize with environment variables
 const sequelize = new Sequelize(
-  process.env.DB_NAME, // Database name
-  process.env.DB_USER, // Database username
-  process.env.DB_PASSWORD, // Database password
+  process.env.DB_NAME, 
+  process.env.DB_USER, 
+  process.env.DB_PASSWORD, 
   {
     logging: false,
-    host: process.env.DB_HOST || 'localhost', // Database host
-    dialect: 'mysql', // Database dialect (mysql)
-    port: process.env.DB_PORT || 3306, // Database port (default to 3306 for MySQL)
+    host: process.env.DB_HOST || 'localhost', 
+    dialect: 'mysql', 
+    port: process.env.DB_PORT || 3306, 
   }
 );
 
@@ -46,32 +46,14 @@ const User = sequelize.define('User', {
     }
   }
 }, {
-  timestamps: false // Add timestamps option here
+  timestamps: false 
 });
-
-// Define the Post model
-// const Post = sequelize.define('Post', {
-//   title: { 
-//     type: DataTypes.STRING,
-//     allowNull: false, 
-//   },
-//   content: { 
-//     type: DataTypes.TEXT,
-//     allowNull: false, 
-//   },
-//   isValidated: { 
-//     type: DataTypes.BOOLEAN, 
-//     defaultValue: false,
-//   },
-// }, {
-//   timestamps: false // Add timestamps option here
-// });
 
 const Post = sequelize.define("Post", {
  
   username: {
     type: Sequelize.STRING,
-    allowNull: false,  // Ensure this field is not nullable
+    allowNull: false,  
   },
   title: {
     type: Sequelize.STRING,
@@ -86,7 +68,7 @@ const Post = sequelize.define("Post", {
     defaultValue: false,
   },
   
-      timestamps: false // Add timestamps option here
+      timestamps: false 
     });
   
 
