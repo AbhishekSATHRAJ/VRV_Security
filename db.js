@@ -67,7 +67,7 @@ const Post = sequelize.define("Post", {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
   },
-      timestamps: false 
+      // timestamps: false 
     });
   
 
